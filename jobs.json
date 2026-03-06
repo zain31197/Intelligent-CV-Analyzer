@@ -1,0 +1,47 @@
+{
+  "Data Scientist": {
+    "mandatory": [
+      "Python",
+      "Machine Learning",
+      "SQL"
+    ],
+    "optional": [
+      "TensorFlow",
+      "PyTorch",
+      "Deep Learning",
+      "Scikit-learn",
+      "Pandas",
+      "NumPy"
+    ]
+  },
+  "Software Developer": {
+    "mandatory": [
+      "Java",
+      "Python",
+      "Git"
+    ],
+    "optional": [
+      "Django",
+      "Flask",
+      "React",
+      "Docker",
+      "Kubernetes",
+      "AWS"
+    ]
+  },
+  "Web Developer": {
+    "mandatory": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "optional": [
+      "React",
+      "Node.js",
+      "Vue.js",
+      "Angular",
+      "TypeScript",
+      "Express"
+    ]
+  }
+}

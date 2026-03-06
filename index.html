@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Analyzer - String Matching Algorithms</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <i class="ri-contrast-drop-2-line brand-icon"></i>
+                <div>
+                    <h1>Intelligent CV Analyzer</h1>
+                    <p class="subtitle">String Matching Algorithms for Smart Recruitment</p>
+                </div>
+            </div>
+            <div class="algos">
+                <span class="algo-pill">Brute Force</span>
+                <span class="algo-pill">Rabin-Karp</span>
+                <span class="algo-pill">KMP</span>
+            </div>
+        </header>
+
+        <!-- Home Page -->
+        <div id="home-tab" class="tab-content active">
+            <div class="home-container">
+                <h2 class="home-title">Welcome to CV Analyzer</h2>
+                <p class="home-subtitle">Select a feature to get started</p>
+                <div class="features-grid">
+                    <div class="feature-card" onclick="switchTab('single')">
+                        <i class="ri-file-upload-line feature-icon"></i>
+                        <h3>Single Upload</h3>
+                        <p>Analyze a single CV with one algorithm</p>
+                    </div>
+                    <div class="feature-card" onclick="switchTab('compare')">
+                        <i class="ri-bar-chart-line feature-icon"></i>
+                        <h3>Compare Algorithms</h3>
+                        <p>Compare all algorithms on a single CV</p>
+                    </div>
+                    <div class="feature-card" onclick="switchTab('batch')">
+                        <i class="ri-folder-upload-line feature-icon"></i>
+                        <h3>Batch Analyze</h3>
+                        <p>Analyze all CVs in folder with one algorithm</p>
+                    </div>
+                    <div class="feature-card" onclick="switchTab('batch-compare')">
+                        <i class="ri-file-chart-line feature-icon"></i>
+                        <h3>Batch Compare</h3>
+                        <p>Compare all algorithms on all CVs</p>
+                    </div>
+                    <div class="feature-card" onclick="switchTab('jobs')">
+                        <i class="ri-file-list-3-line feature-icon"></i>
+                        <h3>Job Manager</h3>
+                        <p>Create and manage job descriptions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn" onclick="switchTab('home')"><i class="ri-home-line"></i> Home</button>
+            <button class="tab-btn" onclick="switchTab('single')"><i class="ri-file-upload-line"></i> Single Upload</button>
+            <button class="tab-btn" onclick="switchTab('compare')"><i class="ri-bar-chart-line"></i> Compare</button>
+            <button class="tab-btn" onclick="switchTab('batch')"><i class="ri-folder-upload-line"></i> Batch Analyze</button>
+            <button class="tab-btn" onclick="switchTab('batch-compare')"><i class="ri-file-chart-line"></i> Batch Compare</button>
+            <button class="tab-btn" onclick="switchTab('jobs')"><i class="ri-file-list-3-line"></i> Job Manager</button>
+        </div>
+
+        <!-- Single Algorithm Mode -->
+        <div id="single-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>Upload CV</h2>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="cvFile" accept=".pdf,.docx,.doc,.txt" style="display: none;">
+                        <label for="cvFile" class="upload-label">
+                            <span class="upload-icon"><i class="ri-file-upload-line"></i></span>
+                            <span class="upload-text">Click to upload or drag and drop</span>
+                            <span class="upload-format">PDF, DOCX, DOC, TXT</span>
+                        </label>
+                        <div id="fileName" class="file-name"></div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Job Selection</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="singleJobSelect">Job Title:</label>
+                            <select id="singleJobSelect"></select>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top:8px;">Keywords are loaded from jobs.json. No manual entry needed.</p>
+                </div>
+
+                <div class="form-section">
+                    <h2>Algorithm Settings</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="algorithm">Algorithm:</label>
+                            <select id="algorithm">
+                                <option value="bf">Brute Force (BF)</option>
+                                <option value="kmp">Knuth-Morris-Pratt (KMP)</option>
+                                <option value="rk">Rabin-Karp (RK)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="caseSensitive">Case Sensitivity:</label>
+                            <select id="caseSensitive">
+                                <option value="false">Case Insensitive</option>
+                                <option value="true">Case Sensitive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" onclick="analyzeCV()">Analyze CV</button>
+            </div>
+
+            <div id="results" class="results-container"></div>
+        </div>
+
+        <!-- Compare All Algorithms Mode -->
+        <div id="compare-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>Upload CV</h2>
+                    <div class="file-upload-area" id="compareFileUploadArea">
+                        <input type="file" id="compareCvFile" accept=".pdf,.docx,.doc,.txt" style="display: none;">
+                        <label for="compareCvFile" class="upload-label">
+                            <span class="upload-icon"><i class="ri-file-upload-line"></i></span>
+                            <span class="upload-text">Click to upload or drag and drop</span>
+                            <span class="upload-format">PDF, DOCX, DOC, TXT</span>
+                        </label>
+                        <div id="compareFileName" class="file-name"></div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Job Selection</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="compareJobSelect">Job Title:</label>
+                            <select id="compareJobSelect"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Search Settings</h2>
+                    <div>
+                        <label for="compareCaseSensitive">Case Sensitivity:</label>
+                        <select id="compareCaseSensitive">
+                            <option value="false">Case Insensitive</option>
+                            <option value="true">Case Sensitive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" onclick="compareAlgorithms()">Compare All Algorithms</button>
+            </div>
+
+            <div id="compareResults" class="results-container"></div>
+        </div>
+
+        <!-- Batch Analysis Mode -->
+        <div id="batch-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>Batch CV Analysis</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Analyze all CVs in the <strong>cvs_folder</strong> directory automatically.
+                        No file upload needed - the system will process all PDF and Word documents.
+                    </p>
+                </div>
+
+                <div class="form-section">
+                    <h2>Job Selection</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="batchJobSelect">Job Title:</label>
+                            <select id="batchJobSelect"></select>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top:8px;">Keywords are loaded from jobs.json.</p>
+                </div>
+
+                <div class="form-section">
+                    <h2>Algorithm Settings</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="batchAlgorithm">Algorithm:</label>
+                            <select id="batchAlgorithm">
+                                <option value="bf">Brute Force (BF)</option>
+                                <option value="kmp">Knuth-Morris-Pratt (KMP)</option>
+                                <option value="rk">Rabin-Karp (RK)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="batchCaseSensitive">Case Sensitivity:</label>
+                            <select id="batchCaseSensitive">
+                                <option value="false">Case Insensitive</option>
+                                <option value="true">Case Sensitive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" onclick="analyzeBatch()">Analyze All CVs in Folder</button>
+            </div>
+
+            <div id="batchResults" class="results-container"></div>
+        </div>
+
+        <!-- Batch Compare Mode -->
+        <div id="batch-compare-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>Batch Algorithm Comparison</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Compare all three algorithms on all CVs in the <strong>cvs_folder</strong> directory.
+                        This will show you which algorithm performs best across your entire CV database.
+                    </p>
+                </div>
+
+                <div class="form-section">
+                    <h2>Job Selection</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label for="batchCompareJobSelect">Job Title:</label>
+                            <select id="batchCompareJobSelect"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Search Settings</h2>
+                    <div>
+                        <label for="batchCompareCaseSensitive">Case Sensitivity:</label>
+                        <select id="batchCompareCaseSensitive">
+                            <option value="false">Case Insensitive</option>
+                            <option value="true">Case Sensitive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" onclick="compareBatch()">Compare All CVs with All Algorithms</button>
+            </div>
+
+            <div id="batchCompareResults" class="results-container"></div>
+        </div>
+
+        <!-- Job Description Manager -->
+        <div id="jobs-tab" class="tab-content">
+            <div class="form-container">
+                <div class="form-section">
+                    <h2>Create New Job Description</h2>
+                    <div class="settings-grid">
+                        <div style="grid-column: 1/-1;">
+                            <label for="newJobTitle">Job Title:</label>
+                            <input type="text" id="newJobTitle" placeholder="e.g., Data Scientist" style="width:100%; padding:12px; border:2px solid var(--border-color); border-radius:8px; font-size:1rem;">
+                        </div>
+                    </div>
+                    <div class="keywords-input">
+                        <div>
+                            <label for="newMandatoryKeywords">Mandatory Keywords (one per line)</label>
+                            <textarea id="newMandatoryKeywords" rows="6" placeholder="Python&#10;SQL&#10;Machine Learning"></textarea>
+                        </div>
+                        <div>
+                            <label for="newOptionalKeywords">Optional Keywords (one per line)</label>
+                            <textarea id="newOptionalKeywords" rows="6" placeholder="TensorFlow&#10;PyTorch&#10;Docker"></textarea>
+                        </div>
+                    </div>
+                    <button class="analyze-btn" onclick="createJob()" style="margin-top:20px;">Create Job Description</button>
+                </div>
+            </div>
+            <div id="jobsList" class="results-container"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
