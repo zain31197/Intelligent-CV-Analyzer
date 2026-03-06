@@ -11,6 +11,13 @@ A modern web application for analyzing CVs against job descriptions using three 
 - 📈 Detailed performance metrics (comparisons, time, collisions)
 - 🎨 Modern, responsive UI with drag-and-drop file upload
 
+## Web App Preview
+
+![Home Page](web_app_images/1.png)
+![Dashboard](web_app_images/2.png)
+![Analysis Page](web_app_images/3.png)
+![UI Overview](web_app_images/UI.png)
+
 ## Installation
 
 1. Install Python dependencies:
