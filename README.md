@@ -13,10 +13,11 @@ A modern web application for analyzing CVs against job descriptions using three 
 
 ## Web App Preview
 
+![UI Overview](web_app_images/UI.png)
 ![Home Page](web_app_images/1.png)
 ![Dashboard](web_app_images/2.png)
 ![Analysis Page](web_app_images/3.png)
-![UI Overview](web_app_images/UI.png)
+
 
 ## Installation
 
